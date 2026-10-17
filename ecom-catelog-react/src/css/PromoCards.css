@@ -1,0 +1,174 @@
+.promo-wrap {
+  position: relative;
+  padding: 10px 10px 16px;
+  background: #fff;
+}
+
+.promo-row {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding: 4px;
+}
+.promo-row::-webkit-scrollbar { display: none; }
+
+.promo-card {
+  flex: 0 0 357px;
+  height: 570px;
+  border-radius: 18px;
+  padding: 16px 14px 10px;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 2px 6px rgba(0,0,0,.25);
+}
+
+/* Themes */
+.promo-orange     { background: linear-gradient(#ff7a00, #f26a00); }
+.promo-green      { background: #0b7a43; }
+.promo-red        { background: linear-gradient(#e10600, #c40500); }
+.promo-lightgreen { background: #1fae63; }
+
+.promo-title {
+  font-size: 38px;
+  line-height: 1.1;
+  font-weight: 800;
+  margin: 0 0 10px;
+  letter-spacing: -1px;
+}
+.promo-subtitle { font-size: 22px; margin: 0 0 10px; line-height: 1.2; }
+
+.promo-perks {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+.promo-divider {
+  display: inline-block;
+  width: 1px;
+  height: 28px;
+  background: rgba(255,255,255,.7);
+  margin: 0 8px -8px 0;
+}
+
+.promo-brand { font-size: 26px; letter-spacing: 3px; font-weight: 300; margin-bottom: 8px; }
+
+/* Image */
+.promo-image-box {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  border: 2px solid #f4d35e;
+  background: #ddd;
+  margin-top: auto;
+}
+.promo-image-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.promo-badge {
+  position: absolute;
+  left: 50%;
+  bottom: -12px;
+  transform: translateX(-50%);
+  background: #3b0a45;
+  color: #fff;
+  font-weight: 700;
+  font-size: 15px;
+  padding: 2px 14px;
+  border-radius: 14px;
+  z-index: 2;
+}
+
+/* Festival bar */
+.promo-festival {
+  background: #f9e27d;
+  color: #0b7a43;
+  font-size: 26px;
+  font-weight: 800;
+  text-align: center;
+  padding: 18px 0 8px;
+  border-radius: 0 0 22px 22px;
+  margin: 0 0 6px;
+}
+.promo-orange .promo-festival { color: #b85a00; }
+.promo-red .promo-festival { color: #b00500; }
+
+/* Cashback */
+.promo-cashback {
+  background: #ff7a00;
+  border: 1px solid #f9e27d;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 4px 6px;
+  margin-bottom: 6px;
+}
+
+/* Bank */
+.promo-bank {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #fff;
+  color: #111;
+  padding: 6px 8px;
+}
+.promo-bank-logo { color: #0a6ebd; font-weight: 700; font-size: 18px; }
+.promo-bank-text { display: flex; flex-direction: column; line-height: 1.15; }
+.promo-bank-text b { font-size: 14px; }
+.promo-bank-text small { font-size: 10px; }
+
+.promo-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  margin-top: 6px;
+}
+.promo-sponsored {
+  background: #fff;
+  color: #333;
+  border-radius: 14px;
+  padding: 4px 12px;
+  font-size: 13px;
+}
+
+/* Next arrow and Previous arrow */
+.promo-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 56px;
+  height: 120px;
+  border: none;
+  background: #fff;
+  box-shadow: 0 1px 6px rgba(0,0,0,.35);
+  font-size: 44px;
+  cursor: pointer;
+  z-index: 5;
+}
+.promo-btn:hover { background: #f3f3f3; }
+
+.promo-prev { left: 0; border-radius: 0 8px 8px 0; }
+.promo-next { right: 0; border-radius: 8px 0 0 8px; }
+@media (max-width: 600px) {
+  .promo-card { flex-basis: 280px; height: 500px; }
+  .promo-title { font-size: 30px; }
+}
+
+.promo-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+
+.promo-clickable { cursor: pointer; }
+.promo-clickable img { transition: transform .3s ease; }
+.promo-clickable:hover img { transform: scale(1.04); }
+.promo-image-box { overflow: hidden; }
