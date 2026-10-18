@@ -43,7 +43,7 @@ public class DataSeeder implements CommandLineRunner {
         phone.setName("SmartPhone");
         phone.setDescription("Latest model smartphone with amaizing features");
         phone.setImageUrl("/images/products/smartphone.jpg");
-        phone.setPrice(699.99);
+        phone.setPrice(27999.99);
         phone.setCategory(electronics);
 
 
@@ -51,7 +51,7 @@ public class DataSeeder implements CommandLineRunner {
         laptop.setName("Laptop");
         laptop.setDescription("high performance Laptop for work and play");
         laptop.setImageUrl("/images/products/laptop.jpg");
-        laptop.setPrice(999.99);
+        laptop.setPrice(57999.99);
         laptop.setCategory(electronics);
 
 
@@ -59,14 +59,14 @@ public class DataSeeder implements CommandLineRunner {
         jacket.setName("Winter Jacket");
         jacket.setDescription("Warm and cozy jacket for winter");
         jacket.setImageUrl("/images/products/wJacket.jpg");
-        jacket.setPrice(129.99);
+        jacket.setPrice(8999.99);
         jacket.setCategory(clothing);
 
         Product blender = new Product();
         blender.setName("Blender");
         blender.setDescription("high speed blender for smoothies and more");
         blender.setImageUrl("/images/products/blender.jpg");
-        blender.setPrice(89.99);
+        blender.setPrice(999.99);
         blender.setCategory(home);
 
         productRepository.saveAll(Arrays.asList(phone, laptop, jacket, blender));
