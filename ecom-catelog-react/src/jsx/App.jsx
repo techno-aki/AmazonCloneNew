@@ -16,11 +16,11 @@ function App() {
 
    
   useEffect(() => {
-    fetch('http://localhost:9090/api/products')
+    fetch(`${API_URL}/api/products`)
     .then(response => response.json())
     .then(data => setProducts(data)); 
 
-    fetch('http://localhost:9090/api/categories')
+    fetch(`${API_URL}/api/categories`)
     .then(response => response.json())
     .then(data => setCategories(data)); 
   }, []);
