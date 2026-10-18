@@ -62,7 +62,7 @@ const handleBuyNow = async (product) => {
         key: order.key,
         amount: order.amount,
         currency: order.currency,
-        name: 'AmaCart',
+        name: 'Amazone By Akshay',
         description: product.name,
         order_id: order.orderId,
         handler: async (response) => {
