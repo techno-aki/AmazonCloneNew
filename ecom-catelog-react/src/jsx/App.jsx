@@ -5,6 +5,7 @@ import CategoryFilter from './CategoryFilter';
 import Navbar from './Navbar';
 import SubNav from './SubNav';
 import PromoCards from './PromoCards';
+import { FourSquare } from 'react-loading-indicators';
 
 function App() {
   const [products, setProducts] = useState([]);
@@ -13,6 +14,7 @@ function App() {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortOrder, setSortOrder] = useState("asc");
   const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:9090';
+  const [loadingProductId, setLoadingProductId] = useState(null);
 
    
   useEffect(() => {
@@ -47,47 +49,51 @@ const handleSortChange = (event) => {
 
 
 const handleBuyNow = async (product) => {
-    try {
-      // 1. Backend se order banwao (sirf productId bhejo)
-      const res = await fetch(`${API_URL}/api/payments/create-order`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ productId: product.id }),
-      });
-      if (!res.ok) throw new Error('Order create nahi hua');
-      const order = await res.json();
+  setLoadingProductId(product.id); // loader ON
+  try {
+    // 1. Backend se order banwao
+    const res = await fetch(`${API_URL}/api/payments/create-order`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ productId: product.id }),
+    });
+    if (!res.ok) throw new Error('Order create nahi hua');
+    const order = await res.json();
 
-      // 2. Razorpay popup kholo
-      const options = {
-        key: order.key,
-        amount: order.amount,
-        currency: order.currency,
-        name: 'Amazone By Akshay',
-        description: product.name,
-        order_id: order.orderId,
-        handler: async (response) => {
-          // 3. Payment ke baad backend se signature verify karwao
-          const v = await fetch(`${API_URL}/api/payments/verify`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(response),
-          });
-          const result = await v.json();
-          alert(result.verified
-            ? `Payment successful! ID: ${response.razorpay_payment_id}`
-            : 'Payment verify nahi hui, support se contact karo');
-        },
-        theme: { color: '#febd69' },
-      };
+    // 2. Razorpay popup kholo
+    const options = {
+      key: order.key,
+      amount: order.amount,
+      currency: order.currency,
+      name: 'Amazone By Akshay',
+      description: product.name,
+      order_id: order.orderId,
+      handler: async (response) => {
+        // 3. Payment ke baad backend se signature verify karwao
+        const v = await fetch(`${API_URL}/api/payments/verify`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(response),
+        });
+        const result = await v.json();
+        alert(result.verified
+          ? `Payment successful! ID: ${response.razorpay_payment_id}`
+          : 'Payment verify nahi hui, support se contact karo');
+      },
+      theme: { color: '#febd69' },
+    };
 
-      const rzp = new window.Razorpay(options);
-      rzp.on('payment.failed', (r) => alert(`Payment failed: ${r.error.description}`));
-      rzp.open();
-    } catch (err) {
-      console.error(err);
-      alert('Kuch gadbad hui, dobara try karo');
-    }
-  };
+    const rzp = new window.Razorpay(options);
+    rzp.on('payment.failed', (r) => alert(`Payment failed: ${r.error.description}`));
+    rzp.open();
+    setLoadingProductId(null); // popup khul gaya, loader OFF
+  } catch (err) {
+    console.error(err);
+    alert('Kuch gadbad hui, dobara try karo');
+    setLoadingProductId(null); // error pe bhi OFF
+  }
+};
+
 
   const filterProducts = products
   .filter(product => {
@@ -107,6 +113,36 @@ const handleBuyNow = async (product) => {
 
   return (
     <>
+    {loadingProductId !== null && (
+          <div
+            style={{
+              position: 'fixed',
+              inset: 0,
+              background: 'rgba(0, 0, 0, 0.5)',
+              zIndex: 9999,
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <div
+              style={{
+                background: '#fff',
+                padding: '30px 40px',
+                borderRadius: '12px',
+                boxShadow: '0 4px 20px rgba(0,0,0,0.3)',
+                textAlign: 'center',
+              }}
+            >
+              <FourSquare
+                color={["#704c33", "#397033", "#335770", "#6a3370"]}
+                size="medium"
+                text="Processing..."
+                textColor="#333"
+              />
+            </div>
+          </div>
+        )}
       <Navbar
               categories={categories}
               onCategorySelect={handleCategorySelect}
@@ -127,7 +163,10 @@ const handleBuyNow = async (product) => {
 
         <div>
           {filterProducts.length ? (
-            <ProductList products={filterProducts} onBuyNow={handleBuyNow} />
+            <ProductList
+                products={filterProducts}
+                onBuyNow={handleBuyNow}
+                loadingProductId={loadingProductId} />
           ) : (
             <p>No Products Found</p>
           )}

@@ -1,3 +1,4 @@
+
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:9090';
 
 // Fallback: koi file nahi chahiye, SVG khud hi bana hai
@@ -17,7 +18,7 @@ const resolveImage = (url) => {
   return `${API_URL}${url}`;                // /images/products/x.jpg -> backend ka URL
 };
 
-const ProductList = ({ products, onAddToCart, onBuyNow }) => {
+const ProductList = ({ products, onAddToCart, onBuyNow, loadingProductId }) => {
   return (
     <div className="row">
       {products.map((product) => (
@@ -45,12 +46,13 @@ const ProductList = ({ products, onAddToCart, onBuyNow }) => {
                 >
                   Add to Cart
                 </button>
-                <button
-                  className="btn btn-primary flex-fill"
-                  onClick={() => onBuyNow(product)}
-                >
-                  Buy Now
-                </button>
+               <button
+                 className="btn btn-primary flex-fill"
+                 onClick={() => onBuyNow(product)}
+                 disabled={loadingProductId !== null}
+               >
+                 Buy Now
+               </button>
               </div>
             </div>
           </div>
